@@ -1,0 +1,57 @@
+knowlege
+
+- do (question, mistake)
+
+- think
+
+- retry
+
+
+agent
+
+state
+
+search problems
+
+	initial state
+
+	actions - choices that can be made in a state
+	actions returns the set of actions that can be executed in state
+
+	transition model - a description of what state results from performing any applicable action in any state
+	result returns the state resulting from performing action in state
+
+	state space - the set of all states reachable from the initial state by any sequence of actions
+
+	goal test - way to determine whether a given state is a goal state
+
+	path cost - numerical cost associated with a given path
+
+solution - a sequence of actions that leads from the initial state to a goal state
+
+optimal solution - a solution that has the lowest path cost among all solutions
+
+node 
+a data structure that keep track of 
+	- a state
+	- a parent (node that generated this node)
+	- an action (action applied to parent to get node)
+	- a path cost (from initial state to node)
+
+Approach
+- start with a frontier that contains the initial state
+- repeat:
+	- if the frontier is empty, then no solution..
+	- remove a node from the frontier.
+	- if node contains goal state, return the solution.
+	- expand node, add resulting nodes to the frontier.
+
+Revised Approach
+- start with a frontier that contains the initial state
+- start with an empty explored set
+- repeat:
+	- if the frontier is empty, then no solution..
+	- remove a node from the frontier.
+	- if node contains goal state, return the solution.
+	- add the node to the explored set
+	- expand node, add resulting nodes to the frontier if they aren't already in the frontier or the explored set
