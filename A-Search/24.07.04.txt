@@ -1,0 +1,15 @@
+uninformed search - search strategy that uses no problem-specific knowledge
+
+informed search - search strategy that uses problem-specific knowledge to find solutions more efficiently
+
+greedy best-first search - search algorithm that expands the node that is closest to the goal, as estimated by a heuristic function
+heuristic function => manhattan distance   A = (x1, y1) B = (x2, y2)   ---> | x1 - x2 | + | y1 - y2 |
+
+A* search - search algorithm that expands node with lowest value of g(n) + h(n)
+g(n) = cost to reach node
+h(n) = estimated cost to goal
+optimal of 
+- h(n) is admissible (never overestimates the true cost), and
+- h(n) is consistent (for every node n and successor n' with step cost c, h(n) ≤ h(n') + c)
+
+
