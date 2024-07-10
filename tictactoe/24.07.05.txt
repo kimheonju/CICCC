@@ -1,0 +1,37 @@
+adversarial search
+
+minimax
+max(X) aims to maximize score
+min(O) aims to minimize score
+
+Game
+so - initial state
+player(s) - returns which player to move in state s
+actions(s) - returns legal moves in state s
+result(s, a) - returns state after action a taken in state s
+tetminal(s) - check if state s is a terminal state
+utility(s) - final numerical value for terminal state s
+
+given a state s 
+	max picks action a in action(s) that produces highest value of min-value(result(s, a))
+	min picks action a in action(s) that produces smallest value of max-value(result(s, a))
+
+function max-value(state):
+	if terminal(state):
+		return utility(state)
+	v = -∞
+	for action in actions(state):
+		v = max(v, min-value(result(state, action)))
+	return v
+
+function min-value(state):
+	if terminal(state):
+		return utility(state)
+	v = ∞
+	for action in actions(state):
+		v = min(v, max-value(result(state, action)))
+	return v
+
+depth-limited minimax
+
+evaluation function - function that estimates the expected utiity of the game from a given state
