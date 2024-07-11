@@ -1,0 +1,16 @@
+clue
+
+people     rooms     weapons
+mustard   ballroom  knife
+plum       kitchen     revolver
+scarlet     library      wrench
+
+propositinal symbols
+
+
+musted or plum or scarlet
+ballroom or kitchen or library
+knife or revolver or wrench
+
+not plum
+not musted or not library or not revolver

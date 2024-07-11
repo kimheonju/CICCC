@@ -1,0 +1,90 @@
+knowledge
+
+knowledge-based agents - agents that reason by operating on internal representations of knowledge
+
+if it didnt rain harry visited hagrid today
+harry visited hagrid or dumbledore today, but not both
+harry visited dumblefore today
+harry did not visit hagrid today
+it rained today
+
+logic
+
+sentence - an assertion about the world in a knowledge representation language
+
+propositional logic
+proposition symbols - P Q R
+logical connnectives - not==￢ and==∧ or==∨ implication==→ bicnoditional==↔
+
+not (￢)
+   P           ￢P
+false           true
+true           false
+
+and (∧)
+   P             Q           P∧Q
+false          false          false
+false          true          false
+true          false          false
+true          true           true
+
+or (∨)
+   P             Q           P∨Q
+false          false          false
+false          true          true
+true          false          true
+true          true          true
+
+implication (→)
+   P             Q           P→Q
+false          false          true
+false          true          true
+true          false          false
+true          true          true
+
+biconditioanl (↔)
+   P             Q           P↔Q
+false          false          true
+false          true          false
+true          false          false
+true          true          true
+
+xor (ⓧ)
+   P             Q           PⓧQ
+false          false          false
+false          true          true
+true          false          true
+true          true          false
+
+model - assignment of a truth value to every propositional symbol (a "possible world")
+
+knowledge base - a set of sentences known by a knowledge-based agent
+
+entailment - i every model in which sentence α is true, sentence β is also true
+
+inference - the pocess of deriving new sentences from old ones
+
+inference algorithms
+
+model checking
+
+to determine if KB |= α
+	enumerate all possible models.
+	if in every model where KB is true, α is true, then KB entails a
+	otherwise, KB does not entail α
+
+P: it is Tuesday    Q: it is raining R: harry will go for a run
+
+KB: {P∧ ￢Q) → R
+
+Query: R
+
+p             Q                R                 KB
+false         false           false             false        
+false         false           true              false
+false         true            false             false
+false         true            true              false
+true          false           false             false
+true          false           true              true
+true          true            false             false
+true          true            true              false
