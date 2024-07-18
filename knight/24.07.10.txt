@@ -1,0 +1,45 @@
+inference rules
+
+modus ponens
+and elimination
+double negation elimination
+
+P -> Q == ￢P ∨ Q
+P -> Q !== Q -> P
+α <-> β == (α -> β) ∧ (β -> α)
+￢(α ∧ β) == ￢α ∨ ￢β
+￢(α ∨ β) == ￢α ∧ ￢β 
+(α ∧ (β ∨ γ)) == (α ∧ β) ∨ (α ∧ γ)
+(α ∨ (β ∧ γ)) == (α ∨ β) ∧ (α ∨ γ)
+
+theorem proving
+
+	initial state: starting knowledge base
+	actions: inference rules
+	transition model: nwe knowledge base after inference
+	goal test: check statement we're trying to prove
+	path cost finction: number of steps in proof
+
+
+Resolution
+opposite things are cancel each other
+
+clause
+a disjunction(= OR) of literals(symbols or not symbols) / a bunch of literals 
+e.g. P ∨ Q ∨ R
+
+conjunctive normal form(CNF)
+logical sentence that is a conjunction(= AND) of clauses
+e.g. (A ∨ B ∨ C) ∧ (D ∨ ￢E) ∧ (F ∨ G)
+
+Conversion to CNF
+- Eliminate biconditionals
+   - turn (α <-> β) into (α -> β) ∧ (β -> α)
+- Eliminate implications
+   - turn α -> β == ￢α ∨ β
+- Move ￢ inwards using De Morgan's Laws
+   - e.g. turn ￢(α ∧ β) == ￢α ∨ ￢β
+- Use distribute law to Distribute ∨ wherever possible
+   - to put ∨ inside and ∧ outside 
+CNF에 대한 설명을 나타냄 
+법칙을 사용해서 최종적인 CNF가 나옴

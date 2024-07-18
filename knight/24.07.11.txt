@@ -1,0 +1,44 @@
+Inference(추론) by Resolution(결심)
+￢∨∧ α β
+P ∨ Q ∨ S + ￢P ∨ R ∨ S == (Q ∨ R ∨ S)
+
+P + ￢P == ( ) Empty -> False
+
+to determine(결정하다) if KB |= α :
+	check if (KB ∧ ￢α) is a contradiction(모순)?
+	if so, then KB |= α .
+	otherwise, no entailment(한정)
+
+to determine if KB |= α :
+	convert(KB ∧ ￢α) to Conjunctive Normal Form
+	Keep checking to see if we can use resolution to produce(생산) a new clause(조항)
+		if ever we produce the empty clause (equivalent(동등한) to False), we have a contradiction, and KB |= α
+		Otherwise, if we can't add new clauses, no entailment
+
+Dose (A ∨ B) ∧ (￢B ∨ C) ∧ (￢C) entail A?
+	(A ∨ B) ∧ (￢B ∨ C) ∧ (￢C) ∧ (￢A)
+	(A ∨ B) ∧ (￢B ∨ C) ∧ (￢C) ∧ (￢A) = resolve(해결 each other) ==> (A) ∧ (￢A) == ( ) Empty -> False
+
+
+First - Order Logic 
+	Constant Symbol | Predicate Symbol(Function)
+	Minerva		Person
+	Pomana		House
+	Horce			
+	...
+
+Universal Quantification
+∀x. BelongsTo(x, Gryffindor) -> BelongsTo(x, Hufflepuff)
+== for all objects x, if x belongs to gryffindor, then x does not belong to hufflepuff.
+
+￢∨∧
+Existential Quantification
+∃x. House(x) ∧ BelongsTo(Minerva, x)
+== there exists an object x such that x is a house and Minerva belongs to x.
+Minerva Belongs to a house
+
+∀x. Person(x) -> ∃y. House(y) and BelongsTo(x,y))
+== For all objects x, if x is a person, then there exists an object y such that y is a house and x belongs to y.
+Every person belongs to house
+
+Knowledge
