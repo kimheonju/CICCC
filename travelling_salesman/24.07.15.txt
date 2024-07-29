@@ -1,0 +1,132 @@
+Joint Probability
+￢∨∧ α β
+
+
+AM - C= cloud 0.4 | C = ￢ cloud 0.6 
+PM - R = rain 0.1   | R = ￢ rain 0.9
+
+             R = rain  R = ￢ rain
+C = cloud      0.08            0.32
+C = ￢  cloud 0.02            0.58
+
+P(rain) = Constant Value, So change 1/P(rain) -> α
+P(C, rain) = Joint Probability
+P(C | rain) = Conditional Probability
+
+P(C | rain)
+P(C | rain) = P(C, rain) / P(rain) = α P(C, rain)  
+		= α<0.08, 0.02> = <0.8, 0.2>
+
+Conditional Probability is Propotionally equal to Joint Probability
+￢∨∧ α β
+Probability Rule
+	- Nagation == P(￢a) = 1 - P(a)
+	- Inclusion-Exclusion == P(a∨b) = P(a) + P(b) - P(a∧b)
+	- Marginalization == P(a) = P(a, b) + P(a, ￢b)
+	  P(X = xi) = ∑ P(X = xi, Y=yj)
+			 j
+	  ex) y= { y1, y2, y3, y4}
+	  P(a) = P(x, y1) + P(x, y2) + P(x, y3) + P(x, y4) 
+         			R = rain  R = ￢ rain
+		C = cloud      0.08            0.32
+		C = ￢  cloud 0.02            0.58
+		P(C = cloud) = P(C = cloud, R = rain) + P(C = cloud, R = ￢rain) = 0.08 + 0.32 = 0.4
+		Joint Prob. calculate -> Unconditional Prob.
+	- Conditioning == P(a) = P(a | b)P(b) + (a | ￢b)P(￢b)
+		Conditional Prob. calculate -> Unconditional Prob.
+
+Bayersian network
+data srtucture that represents(나타내는) the dependencies among random variables
+ - directed graph (node, edge)
+ - each node represents a random variable
+ - arrow form X to Y means X is a parent of Y
+ - each node X has probability distribution P(X | parents(X))
+
+			Rain
+		{none, light, heavy}
+		|			|
+		∨			|
+	Maintenance(지속)		|
+	   {yes, no}			|
+		|			|
+		∨			∨
+			Train
+		{on time, 	delayed}
+			|
+			∨
+		Appointment
+		{attend, miss}
+
+Rain {none, light, heavy}
+	0.7     0.2    0.1
+
+			Rain
+		{none, light, heavy}
+		|			|
+		∨			|
+	Maintenance		|
+	   {yes, no}			|
+		|			|
+
+Rain		yes		no
+none		0.4		0.6
+light		0.2		0.8
+heavy		0.1		0.9
+
+			Rain
+		{none, light, heavy}
+		|			|
+		∨			|
+	Maintenance		|
+	   {yes, no}			|
+		|			|
+		∨			∨
+			Train
+		{on time, 	delayed}
+			|
+
+R		M		on time		delayed
+none		yes		0.8			0.2
+none		no		0.9			0.1
+light		yes		0.6			0.4
+light		no		0.7			0.3
+heavy		yes		0.4			0.6
+heavy		no		0.5			0.5
+
+
+			Train
+		{on time, 	delayed}
+			|
+			∨
+		Appointment
+		{attend, miss}
+
+T		attend			miss
+on time	0.9			0.1
+miss		0.6			0.4
+
+------------------------------------------------------
+
+Inference
+ - Query X: variable for which to compute distribution
+ - Evidence(증거) variables E: observed(관찰) variables for event e
+ - Hidden variables Y: non-evidence, non=query variable.
+
+ - Goal: Calculate P(X | e)
+
+P(Appointment | light, no) = α P(Appioint, light, no) = α [P(Appoinment, light, no, on time) +P(Appoinment, light, no, delayed)]
+
+Appointment - Query
+light, no - Evidence
+Train(on time, delayed) - Hidden
+Hidden이 하나라서 결과는 2개만 나오는거임 두가지 상황이니까 하지만 Hidden이 두개라면 결과는 4개
+
+Inference by Enumeration
+P(X | e) = α P(X, e) = α ∑ P(X, e, y)
+			      y
+X is the query variable.
+e is the evidence
+y ranges over values of hidden vaiables
+α normalizes the result
+
+

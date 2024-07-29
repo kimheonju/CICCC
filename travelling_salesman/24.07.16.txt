@@ -1,0 +1,13 @@
+Approximate(근사) Inference
+￢∨∧ α β
+
+Sampling(Technique) for multiple time
+
+P(Rain=light | Train = on time)? - Conditional Prob.
+P(Train = on time)? - Unconditional Prob.
+
+Rejection(기각) Sampling
+	Likelihood Weighting
+	 - Start by fixing the values for evidence variables
+ 	 - Sample the non-evidence variables using conditional probabilities in the Bayesian Network
+	 - Weight each sample by its likelihood: the probability of all of the evidence

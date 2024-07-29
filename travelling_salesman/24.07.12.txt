@@ -1,0 +1,40 @@
+Uncertainty(불안정)
+
+Probability(확률)
+
+Possible Worlds
+P(ω) == probability of omega
+0 ≤ P(ω) ≤ 1
+
+   ∑   P(ω) = 1
+ω∈Ω
+
+P(SUM to 12) = 1/36
+P(SUM to 7) = 6/36 = 1/6
+
+unconditional(비조건부) probability
+degree of belief in a proposition(제의) in the absence(없음) of any other evidence(증거)
+
+conditional(조건부) probability
+degree of belief in a proposition given some exvidence that has already been revealed(보이는)
+P (a | b) -> a given b
+
+P(a | b) = P(a ∧ b) / P(b)
+P(a ∧ b) = P(b)P(a | b) = P(a)P(b | a)
+
+random variable
+a variable in probability theory(이론) with a domain of possible values it can take on
+
+probability distribution
+P(Flight = on time) = 0.6
+P(Flight = in delayed) = 0.3
+P(Flight = in cancelled) = 0.1
+P(flight) = <0.6, 0.3, 0.1>
+
+independence(독립)
+the knowledge that one event occurs(발생하다) does not affect the probability of the other event
+P(a ∧ b) = P(a)P(b | a)
+P(a ∧ b) = P(a)P(b)
+
+Bayes' Rule
+P(b | a) = P(b)P(a | b)/P(a)
