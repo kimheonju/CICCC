@@ -1,0 +1,1064 @@
+24.07.02
+
+knowlege
+
+- do (question, mistake)
+
+- think
+
+- retry
+
+
+agent
+
+state
+
+search problems
+
+	initial state
+
+	actions - choices that can be made in a state
+	actions returns the set of actions that can be executed in state
+
+	transition model - a description of what state results from performing any applicable action in any state
+	result returns the state resulting from performing action in state
+
+	state space - the set of all states reachable from the initial state by any sequence of actions
+
+	goal test - way to determine whether a given state is a goal state
+
+	path cost - numerical cost associated with a given path
+
+solution - a sequence of actions that leads from the initial state to a goal state
+
+optimal solution - a solution that has the lowest path cost among all solutions
+
+node 
+a data structure that keep track of 
+	- a state
+	- a parent (node that generated this node)
+	- an action (action applied to parent to get node)
+	- a path cost (from initial state to node)
+
+Approach
+- start with a frontier that contains the initial state
+- repeat:
+	- if the frontier is empty, then no solution..
+	- remove a node from the frontier.
+	- if node contains goal state, return the solution.
+	- expand node, add resulting nodes to the frontier.
+
+Revised Approach
+- start with a frontier that contains the initial state
+- start with an empty explored set
+- repeat:
+	- if the frontier is empty, then no solution..
+	- remove a node from the frontier.
+	- if node contains goal state, return the solution.
+	- add the node to the explored set
+	- expand node, add resulting nodes to the frontier if they aren't already in the frontier or the explored set
+
+24.07.03
+
+stack - last-in first-out data type
+
+queue - first-in first-out data type
+
+DFS - depth-first search => stack
+search algorithm that always expands the deepest node in the frontier
+
+BFS - breadth-first search => queue
+search algorithm that alaways expands the shallowest node in the frontier
+
+24.07.04
+
+uninformed search - search strategy that uses no problem-specific knowledge
+
+informed search - search strategy that uses problem-specific knowledge to find solutions more efficiently
+
+greedy best-first search - search algorithm that expands the node that is closest to the goal, as estimated by a heuristic function
+heuristic function => manhattan distance   A = (x1, y1) B = (x2, y2)   ---> | x1 - x2 | + | y1 - y2 |
+
+A* search - search algorithm that expands node with lowest value of g(n) + h(n)
+g(n) = cost to reach node
+h(n) = estimated cost to goal
+optimal of 
+- h(n) is admissible (never overestimates the true cost), and
+- h(n) is consistent (for every node n and successor n' with step cost c, h(n) ≤ h(n') + c)
+
+
+24.07.05
+
+
+adversarial search
+
+minimax
+max(X) aims to maximize score
+min(O) aims to minimize score
+
+Game
+so - initial state
+player(s) - returns which player to move in state s
+actions(s) - returns legal moves in state s
+result(s, a) - returns state after action a taken in state s
+tetminal(s) - check if state s is a terminal state
+utility(s) - final numerical value for terminal state s
+
+given a state s 
+	max picks action a in action(s) that produces highest value of min-value(result(s, a))
+	min picks action a in action(s) that produces smallest value of max-value(result(s, a))
+
+function max-value(state):
+	if terminal(state):
+		return utility(state)
+	v = -∞
+	for action in actions(state):
+		v = max(v, min-value(result(state, action)))
+	return v
+
+function min-value(state):
+	if terminal(state):
+		return utility(state)
+	v = ∞
+	for action in actions(state):
+		v = min(v, max-value(result(state, action)))
+	return v
+
+depth-limited minimax
+
+evaluation function - function that estimates the expected utiity of the game from a given state
+
+24.07.08
+
+knowledge
+
+knowledge-based agents - agents that reason by operating on internal representations of knowledge
+
+if it didnt rain harry visited hagrid today
+harry visited hagrid or dumbledore today, but not both
+harry visited dumblefore today
+harry did not visit hagrid today
+it rained today
+
+logic
+
+sentence - an assertion about the world in a knowledge representation language
+
+propositional logic
+proposition symbols - P Q R
+logical connnectives - not==￢ and==∧ or==∨ implication==→ bicnoditional==↔
+
+not (￢)
+   P           ￢P
+false           true
+true           false
+
+and (∧)
+   P             Q           P∧Q
+false          false          false
+false          true          false
+true          false          false
+true          true           true
+
+or (∨)
+   P             Q           P∨Q
+false          false          false
+false          true          true
+true          false          true
+true          true          true
+
+implication (→)
+   P             Q           P→Q
+false          false          true
+false          true          true
+true          false          false
+true          true          true
+
+biconditioanl (↔)
+   P             Q           P↔Q
+false          false          true
+false          true          false
+true          false          false
+true          true          true
+
+xor (ⓧ)
+   P             Q           PⓧQ
+false          false          false
+false          true          true
+true          false          true
+true          true          false
+
+model - assignment of a truth value to every propositional symbol (a "possible world")
+
+knowledge base - a set of sentences known by a knowledge-based agent
+
+entailment - i every model in which sentence α is true, sentence β is also true
+
+inference - the pocess of deriving new sentences from old ones
+
+inference algorithms
+
+model checking
+
+to determine if KB |= α
+	enumerate all possible models.
+	if in every model where KB is true, α is true, then KB entails a
+	otherwise, KB does not entail α
+
+P: it is Tuesday    Q: it is raining R: harry will go for a run
+
+KB: {P∧ ￢Q) → R
+
+Query: R
+
+p             Q                R                 KB
+false         false           false             false        
+false         false           true              false
+false         true            false             false
+false         true            true              false
+true          false           false             false
+true          false           true              true
+true          true            false             false
+true          true            true              false
+
+24.07.09
+
+clue
+
+people     rooms     weapons
+mustard   ballroom  knife
+plum       kitchen     revolver
+scarlet     library      wrench
+
+propositinal symbols
+
+
+musted or plum or scarlet
+ballroom or kitchen or library
+knife or revolver or wrench
+
+not plum
+not musted or not library or not revolver
+
+24.07.10
+
+inference rules
+
+modus ponens
+and elimination
+double negation elimination
+
+P -> Q == ￢P ∨ Q
+P -> Q !== Q -> P
+α <-> β == (α -> β) ∧ (β -> α)
+￢(α ∧ β) == ￢α ∨ ￢β
+￢(α ∨ β) == ￢α ∧ ￢β 
+(α ∧ (β ∨ γ)) == (α ∧ β) ∨ (α ∧ γ)
+(α ∨ (β ∧ γ)) == (α ∨ β) ∧ (α ∨ γ)
+
+theorem proving
+
+	initial state: starting knowledge base
+	actions: inference rules
+	transition model: nwe knowledge base after inference
+	goal test: check statement we're trying to prove
+	path cost finction: number of steps in proof
+
+
+Resolution
+opposite things are cancel each other
+
+clause
+a disjunction(= OR) of literals(symbols or not symbols) / a bunch of literals 
+e.g. P ∨ Q ∨ R
+
+conjunctive normal form(CNF)
+logical sentence that is a conjunction(= AND) of clauses
+e.g. (A ∨ B ∨ C) ∧ (D ∨ ￢E) ∧ (F ∨ G)
+
+Conversion to CNF
+- Eliminate biconditionals
+   - turn (α <-> β) into (α -> β) ∧ (β -> α)
+- Eliminate implications
+   - turn α -> β == ￢α ∨ β
+- Move ￢ inwards using De Morgan's Laws
+   - e.g. turn ￢(α ∧ β) == ￢α ∨ ￢β
+- Use distribute law to Distribute ∨ wherever possible
+   - to put ∨ inside and ∧ outside 
+CNF에 대한 설명을 나타냄 
+법칙을 사용해서 최종적인 CNF가 나옴
+
+24.07.11
+
+Inference(추론) by Resolution(결심)
+￢∨∧ α β
+P ∨ Q ∨ S + ￢P ∨ R ∨ S == (Q ∨ R ∨ S)
+
+P + ￢P == ( ) Empty -> False
+
+to determine(결정하다) if KB |= α :
+	check if (KB ∧ ￢α) is a contradiction(모순)?
+	if so, then KB |= α .
+	otherwise, no entailment(한정)
+
+to determine if KB |= α :
+	convert(KB ∧ ￢α) to Conjunctive Normal Form
+	Keep checking to see if we can use resolution to produce(생산) a new clause(조항)
+		if ever we produce the empty clause (equivalent(동등한) to False), we have a contradiction, and KB |= α
+		Otherwise, if we can't add new clauses, no entailment
+
+Dose (A ∨ B) ∧ (￢B ∨ C) ∧ (￢C) entail A?
+	(A ∨ B) ∧ (￢B ∨ C) ∧ (￢C) ∧ (￢A)
+	(A ∨ B) ∧ (￢B ∨ C) ∧ (￢C) ∧ (￢A) = resolve(해결 each other) ==> (A) ∧ (￢A) == ( ) Empty -> False
+
+
+First - Order Logic 
+	Constant Symbol | Predicate Symbol(Function)
+	Minerva		Person
+	Pomana		House
+	Horce			
+	...
+
+Universal Quantification
+∀x. BelongsTo(x, Gryffindor) -> BelongsTo(x, Hufflepuff)
+== for all objects x, if x belongs to gryffindor, then x does not belong to hufflepuff.
+
+￢∨∧
+Existential Quantification
+∃x. House(x) ∧ BelongsTo(Minerva, x)
+== there exists an object x such that x is a house and Minerva belongs to x.
+Minerva Belongs to a house
+
+∀x. Person(x) -> ∃y. House(y) and BelongsTo(x,y))
+== For all objects x, if x is a person, then there exists an object y such that y is a house and x belongs to y.
+Every person belongs to house
+
+Knowledge
+
+24.07.12
+
+Uncertainty(불안정)
+
+Probability(확률)
+
+Possible Worlds
+P(ω) == probability of omega
+0 ≤ P(ω) ≤ 1
+
+   ∑   P(ω) = 1
+ω∈Ω
+
+P(SUM to 12) = 1/36
+P(SUM to 7) = 6/36 = 1/6
+
+unconditional(비조건부) probability
+degree of belief in a proposition(제의) in the absence(없음) of any other evidence(증거)
+
+conditional(조건부) probability
+degree of belief in a proposition given some exvidence that has already been revealed(보이는)
+P (a | b) -> a given b
+
+P(a | b) = P(a ∧ b) / P(b)
+P(a ∧ b) = P(b)P(a | b) = P(a)P(b | a)
+
+random variable
+a variable in probability theory(이론) with a domain of possible values it can take on
+
+probability distribution
+P(Flight = on time) = 0.6
+P(Flight = in delayed) = 0.3
+P(Flight = in cancelled) = 0.1
+P(flight) = <0.6, 0.3, 0.1>
+
+independence(독립)
+the knowledge that one event occurs(발생하다) does not affect the probability of the other event
+P(a ∧ b) = P(a)P(b | a)
+P(a ∧ b) = P(a)P(b)
+
+Bayes' Rule
+P(b | a) = P(b)P(a | b)/P(a)
+
+24.07.15
+
+Joint Probability
+￢∨∧ α β
+
+
+AM - C= cloud 0.4 | C = ￢ cloud 0.6 
+PM - R = rain 0.1   | R = ￢ rain 0.9
+
+             R = rain  R = ￢ rain
+C = cloud      0.08            0.32
+C = ￢  cloud 0.02            0.58
+
+P(rain) = Constant Value, So change 1/P(rain) -> α
+P(C, rain) = Joint Probability
+P(C | rain) = Conditional Probability
+
+P(C | rain)
+P(C | rain) = P(C, rain) / P(rain) = α P(C, rain)  
+		= α<0.08, 0.02> = <0.8, 0.2>
+
+Conditional Probability is Propotionally equal to Joint Probability
+￢∨∧ α β
+Probability Rule
+	- Nagation == P(￢a) = 1 - P(a)
+	- Inclusion-Exclusion == P(a∨b) = P(a) + P(b) - P(a∧b)
+	- Marginalization == P(a) = P(a, b) + P(a, ￢b)
+	  P(X = xi) = ∑ P(X = xi, Y=yj)
+			 j
+	  ex) y= { y1, y2, y3, y4}
+	  P(a) = P(x, y1) + P(x, y2) + P(x, y3) + P(x, y4) 
+         			R = rain  R = ￢ rain
+		C = cloud      0.08            0.32
+		C = ￢  cloud 0.02            0.58
+		P(C = cloud) = P(C = cloud, R = rain) + P(C = cloud, R = ￢rain) = 0.08 + 0.32 = 0.4
+		Joint Prob. calculate -> Unconditional Prob.
+	- Conditioning == P(a) = P(a | b)P(b) + (a | ￢b)P(￢b)
+		Conditional Prob. calculate -> Unconditional Prob.
+
+Bayersian network
+data srtucture that represents(나타내는) the dependencies among random variables
+ - directed graph (node, edge)
+ - each node represents a random variable
+ - arrow form X to Y means X is a parent of Y
+ - each node X has probability distribution P(X | parents(X))
+
+			Rain
+		{none, light, heavy}
+		|			|
+		∨			|
+	Maintenance(지속)		|
+	   {yes, no}			|
+		|			|
+		∨			∨
+			Train
+		{on time, 	delayed}
+			|
+			∨
+		Appointment
+		{attend, miss}
+
+Rain {none, light, heavy}
+	0.7     0.2    0.1
+
+			Rain
+		{none, light, heavy}
+		|			|
+		∨			|
+	Maintenance		|
+	   {yes, no}			|
+		|			|
+
+Rain		yes		no
+none		0.4		0.6
+light		0.2		0.8
+heavy		0.1		0.9
+
+			Rain
+		{none, light, heavy}
+		|			|
+		∨			|
+	Maintenance		|
+	   {yes, no}			|
+		|			|
+		∨			∨
+			Train
+		{on time, 	delayed}
+			|
+
+R		M		on time		delayed
+none		yes		0.8			0.2
+none		no		0.9			0.1
+light		yes		0.6			0.4
+light		no		0.7			0.3
+heavy		yes		0.4			0.6
+heavy		no		0.5			0.5
+
+
+			Train
+		{on time, 	delayed}
+			|
+			∨
+		Appointment
+		{attend, miss}
+
+T		attend			miss
+on time	0.9			0.1
+miss		0.6			0.4
+
+------------------------------------------------------
+
+Inference
+ - Query X: variable for which to compute distribution
+ - Evidence(증거) variables E: observed(관찰) variables for event e
+ - Hidden variables Y: non-evidence, non=query variable.
+
+ - Goal: Calculate P(X | e)
+
+P(Appointment | light, no) = α P(Appioint, light, no) = α [P(Appoinment, light, no, on time) +P(Appoinment, light, no, delayed)]
+
+Appointment - Query
+light, no - Evidence
+Train(on time, delayed) - Hidden
+Hidden이 하나라서 결과는 2개만 나오는거임 두가지 상황이니까 하지만 Hidden이 두개라면 결과는 4개
+
+Inference by Enumeration
+P(X | e) = α P(X, e) = α ∑ P(X, e, y)
+			      y
+X is the query variable.
+e is the evidence
+y ranges over values of hidden vaiables
+α normalizes the result
+
+
+24.07.16
+
+Approximate(근사) Inference
+￢∨∧ α β
+
+Sampling(Technique) for multiple time
+
+P(Rain=light | Train = on time)? - Conditional Prob.
+P(Train = on time)? - Unconditional Prob.
+
+Rejection(기각) Sampling
+	Likelihood Weighting
+	 - Start by fixing the values for evidence variables
+ 	 - Sample the non-evidence variables using conditional probabilities in the Bayesian Network
+	 - Weight each sample by its likelihood: the probability of all of the evidence
+
+24.07.17
+
+Uncertainty(불확실성) over Time
+
+Xt : Weather at time t
+
+Markov assumption(가정)
+the assumption that current state depends(의지하다) on only a finite(유한한) fixed number of previous(이전) states
+
+Markov chain
+a sequence of random variables where the distribution of each variable follows the markov assumption
+
+Sensor Models
+
+Hidden State		Observation(관찰)
+
+robot's position		robot's sensor data
+words spoken		audio wavwforms
+user engagement		website or app analytics		
+weather			umbrella
+
+Hidden Markov Models
+a Markov model for a systme with hidden states that genaerate(발생시키다) some observed event
+
+sensor Markov assumption
+the assumption that the evidence variable depends only the corresponding(d일치하는) state
+
+Task				Definition
+
+Filtering			given observations from start until now, calculate distribution for current state
+prediction			given observations from start until now, calculate distribution for a future state
+smoothing			given observations from start until now, calculate distribution for past(과거) state
+most likely explanation	given observations from start until now, calculate most likely sequence of states
+
+Optimization
+choosing the best option from a set of options
+
+local search
+search algorithms that maintain(유지) a single node and searches by moving to a neighboring node
+
+
+state-space landscape
+global-maximum == objective function
+global-minimum == cost function
+curren state --> move on to a 2 neighboring state
+
+Hill climing
+function hill-climb(problem):
+	current = initial state of problem
+	repeat:
+		neighbor = highest value neighbor of current
+		if neighbor not better than current:
+			return current 
+		current = neighbor 
+
+Hill Climbing Variants
+	Variant						Definition
+	steepest(가장 가파른)-ascent(언덕)		choose the highest-valued neighbor
+	stochastic(확률적인)				choose randomly from higher-valued neighbors
+	first-choice						choose the first higher-valued neighbor
+	random-restart					conduct(실시) hill climbing multiple times
+	local beam search					chooses the k highest-valued neighbors
+
+24.07.18
+
+Simulated Annealing
+
+• Early on, higher "temperature": more likely to accept neighbors that are worse than current state
+• Later on, lower "temperature": less likely to accept neighbors that are worse than current state
+
+function SIMULATED-ANNEALING(problem, max):
+	current - initial state of problem
+	for t = 1 to max:
+		T = TEMPERATURE(t)
+		neighbor = random neighbor of current
+		ΔE = how much better neighbor is than current
+		if ΔE > 0:
+			current = neighbor
+		with probability eΔE/T set current = neighbor
+	return current
+eΔE/T == 0,1 == T가 높아질수록 1에 가까워지고 낮아질수록 0에 가까워짐
+
+Traveling Salesman Problem
+Linear Programming
+• Minimize a cost function c1x1 + c2x2 + ... + cnxn.
+• With constraints of form a1x1 + a2x2 + ... + anxn ≤ b 
+  or of form a1x1 + a2x2 + ... + anxn = b
+• With bounds for each variable li < xi ≤ ui
+
+Linear Programming Example
+• Two machines X1 and X2. X1 costs $50/houe to run, X2 costs $80/hour to run. Goal is to minimize cost.
+• X1 requires 5 units of labor per hour. X2 requires 2 units of labor per hour. Total of 20 units of labor to spend.
+• X1 produces 10 units of output per hour. X2 produces 12 units of output per hour. Company needs 90 units of output.
+
+Cost Function : 50x1 + 80x2
+Constraint : 5x1 + 2x2 ≤ 20
+Constraint : 10x1 + 12x2 ≥ 90 ==> (-10x1) + (-12x2) ≤ (-90)
+
+Linear Programming Algorithms
+ - Simplex
+
+ - Interior - Point
+
+24.07.19
+
+Constraint(제약조건) Satisfaction(만족) Problem
+ - Set of variables { X1, X2, ... Xn }
+ - Set of domains for each variable { D1, D2, ... Dn }
+ - Set of constraints C
+
+ex)
+Variables - { A, B, C, D, E, F, G }
+Domains - { Monday, Tuesday, Wedesday } for each variable
+Constraints - { A ≠ B }
+
+hard constraints
+constraint that must be satisfied in a correct solution
+
+soft constraints
+constraint that express some notion of which colutions are preferred over others
+
+unary constraint(단항 제약)
+constraint involving (포함하다) only one variable
+{ A ≠ Monday }
+
+binary constraint(이항 제약)
+constraint involving two variables
+{ A ≠ B }
+
+node consistency
+when all the values in a variable's domain satisfy the variable's unary constraints
+
+arc consistency
+when all the values in a variable's domain satisfy the variable's binary constraints
+To make X arc-consistent with respect to Y, remove elements from X's domain until every choice for X has a possible choice for Y
+
+function REVISE(csp, X, Y):
+	revised = False
+	for x in X.domain:
+		if no y in Y.domain satisfies constraint for (X, Y):
+			delete x from X.domain
+			revised = ture
+	return revised
+
+function AC-3(csp):
+	queue = all arcs in csp
+	while queue non-empty:
+	(X, Y) = DEQUEUE(queue)
+	if REVISE(csp, X, Y):
+		if size of X.domain == 0:
+			return false
+		for each Z in X.neighbors - {X}:
+			ENQUEUE(queue, (Z,X))
+	return true
+
+CSPs as Search Problems
+• initial state: empty assignment (no variables)
+• actions: add a {variable = value} to assignment
+• transition model: shows how adding an assignment changes the assignment
+• goal test: check if all variables assigned and constraints all satisfied
+• path cost function: all paths have same cost
+
+
+Backtracking Search
+function BACKTRACK(assignment, csp):
+	if assignment complete: return assignment
+	var = SELECT-UNASSIGNED-VAR(assignment, csp)
+	for value in DOMAIN-VALUES(var, assignment, csp):
+		if value consistent with assignment:
+			add {var = value} to assignment
+			result = BACKTRACK(assignment, csp)
+			if result ≠ failure:return result
+		remove {var = value} from assignment
+	return failure
+
+24.07.22
+
+maintaining arc-consistency
+algorithm for enforcing arc-consistency every time we make a new assignment
+when we make a new assignment to X, calls AC-3, starting with a queue of all arcs (Y, X) where Y is a neighbor of X
+
+function BACKTRACK(assignment, csp):
+	if assignment complete: return assignment
+		var = SELECT-UNASSIGNED-VAR(assignment, csp)
+		for value in DOMAIN-VALUES(var, assignment, csp):
+			if value consistent with assignment:
+				add {var = value} to assignment
+				inferences - INFERENCE(assignment, sp)
+				if inferences ≠ failure: add inferences to assignment
+				result = BACKTRACK(assignment, esp)
+				if result ≠ failure: return result
+			remove {var = value} and inferences from assignment
+		return failure
+
+SELECT-UNASSIGNED-VAR
+ - minimum remaining values (MRV) heuristic : selelct the variable that has the smallest domain
+ - degree heuristic : select the variable that has the highest degree (highest degree has many neighbors)
+
+DOMAIN-VALUES
+ - least-constraining values heuristic : return variables in order by number of choices that are ruled out fo neighboring variables
+	 - try least-constraining values first
+
+
+============================================
+Learning
+Supervised Learning
+given a data set of input-output pairs, learn a function to map inputs to outputs
+
+Classification
+supervised learning task of learning a function mapping an input point to a discrete category
+
+f(humidity, pressure)
+	f(93, 999.7) = Rain
+	f(49, 1015.5) = No Rain
+	f(79, 1031.1) = No Rain
+h(numidity, pressure)
+
+nearest-neighbor classification
+algorithm that, given an input, chosses the class of the nearest data point to that input
+
+K-nearest-neighbor classification
+algorithm that, given an input, chosses the most common class out of the K nearest data points to that input
+
+Linear Regression
+x1 = humidity
+x2 = pressure
+
+h(x1, x2) = 	Rain if w0 + w1x1 + w2x2 ≥ 0
+		No Rain otherwise
+ ==
+
+h(x1, x2) = 	1 if w0 + w1x1 + w2x2 ≥ 0
+		0 otherwise
+
+Weight Vector w : (w0, w1, w2)
+Input Vector x : (1, x1, x2)
+w * x : w0 + w1x1 + w2x2
+
+h(x) = 	1 if w *x ≥ 0
+		0 otherwise
+
+perceptron learning rule
+Given data point (x,y), update each weight according to:
+
+wi = wi + α(y - hw(x)) * xi
+==
+wi = wi + α(actual value - estimate) xi
+
+24.07.23
+
+perceptron learning rule
+Given data point (x,y), update each weight according to:
+
+wi = wi + α(y - hw(x)) * xi
+==
+wi = wi + α(actual value - estimate) xi
+
+1. data		-- data point -> rain estimate
+			-- label	 -> rain actual
+
+2. train data 		-- perceopron : updating weight
+			-- k-nearest, neighbor --> creat a model
+			-- SVM
+
+3. test the model
+
+4. use the model to generalize and classify
+
+h(x1, x2) = 	1 if w0 + w1x1 + w2x2 ≥ 0
+		0 otherwise
+
+hard threshold --> 1 or 0 
+soft thereshold --> flexible
+SVM (Support Vector Machines)
+maxinum margin separator
+boundary that maximizes the distance between any of the data points
+
+regression
+supervised learning task of learning a function mapping an input point to a continuous value
+
+f (advertising)
+	f(1200) = 5800
+	f(2800) = 13400
+	f(1800) = 8400
+h (advertising)
+
+Evaluating Hypotheses
+
+loss function
+function that expresses(표현) how poorly our hypothesis(가설) performs(수행)
+
+0-1 loss function
+L(catual, predicted) =
+	0 if actual = predicted,
+	1otherwise
+
+L1 loss function
+L(actual, predicted) = | actual - predicted |
+
+L2 loss function
+L(catual, predicred) = (actual - predicted)**2
+
+cost === loss
+
+overfitting
+a model that fits too closely to a particular data set and therefore may fail to generalize to future data
+cost(h) = loss(h) + λ complexity(h)
+
+regularzation
+penalizing(불이익) hypotheses that are more complex to favor simpler, more general hypotheses
+cost(h) = loss(h) + λ complexity(h) 복잡성이 증가하면 그만큼의 손실도 증가한다
+
+holdout cross-validation
+splitting data into a training set and a test set, 
+such that learning happens on the training set and is evaluated on the test set
+
+k-fold cross-validation
+splitting data into k sets, and experimenting(실험) k times, 
+using each set as a test set once, and using remaining data as training set
+
+scikit-learn
+
+Reinforcement Learning
+given a set of rewards or punishments(벌), learn what actions to take in the future
+
+		Environment
+
+ |||		∧ action	|||
+ ∨ state	|||		∨ reward
+
+		agent
+
+Markov Decision Process
+model for decision-making, representing states, actions, and their rewards
+ - Set of states S
+ - Set of actions ACTIONS(s)
+ - Transition model P(s' | s, a)
+ - Reward Finction R(s, a, s')
+
+24.07.24
+
+Q-learning
+method for learning a functino Q(s, a), estimate of the valur of performing action a in state s
+ - Start with Q(s,a) =0 for all s,a
+ - Every time we  take an action a in state s and observe a reward r, we update:
+Q(s,a) ← Q(s,a) + α(new value estimate - old value estimate)
+Q(s,a) ← Q(s,a) + α((r + MAXa' Q(s', a')) - Q(s, a))
+Q(s,a) ← Q(s,a) + α((r + future reward estimate) - Q(s, a))
+Q(s,a) ← Q(s,a) + α((r + γMAXa' Q(s', a')) - Q(s, a))
+
+
+Q-learning Overview
+ - Start with Q(s,a) =0 for all s,a
+ - When we taken an action and receive a reward:
+	- Estimate the value of Q(s.a) based on current reward and expected future rewards
+	 - Update Q(s,a) to take into account old estimate as well as our new estimate
+
+Greedy Decision-Making
+ - When in state s, choose action a with highest Q(s,a)
+
+Explore(탐험, 조사) vs Exploit(이용, 개척)
+
+ε-greedy
+ - Set ε equal to how often we want to move randomly.
+ - With pobability 1 - ε, choose estimated best move.
+
+function approximation
+approximating(근접한) Q(s, a), often by a function combining various features, rather than storing one value for exery state-action pair
+
+Unsupervised Learning
+given input data without any additional feedback, learn patterns
+
+Clustering
+organizing(구성) a set of objects into group in such a way taht similar objects tend to be in the same group
+
+Some Clustering Applications
+ - Genetic research
+ - IMage segmentation
+ - Market search
+
+K-means clustering
+algorithm for clustering data based on repeatedly assigning(할당) points to clustes and updating those cluster's centers
+
+
+24.07.25
+
+artificial neural network
+mathematical model for learning inspired by biological neural networks
+
+ANN
+ - Model mathematival function from inputs to outputs based on the structure and parameters of the network
+ - Allows of learning the network's parameters based on data
+
+h(x1, x2) = w0 + w1x1 + w2x2
+
+step function g(x) = 1 if x ≥ 0, else 0
+logistic sigmoid g(x) = e**x/ e**x + 1
+rectified linear unit (ReLU) g(x) = max(0, x)
+h(x1, x2) = g(w0 + w1x1 + w2x2)
+
+Gradient Descent
+algorithm for minimizing loss when training neural network
+ - Start with a random choice of weights.
+ - Repeat :
+	 - Calculate the gradient based on all data points :
+	   direction that will lead to decreasing loss.
+	 - Update weights according to the gradient.
+
+Stochastic Gradient Descent
+ - Start with a random choice of weights.
+ - Repeat :
+	 - Calculate the gradient based on one data points :
+	   direction that will lead to decreasing loss.
+	 - Update weights according to the gradient.
+
+Mini-Batch Gradient Descent
+ - Start with a random choice of weights.
+ - Repeat :
+	 - Calculate the gradient based on one small batch :
+	   direction that will lead to decreasing loss.
+	 - Update weights according to the gradient.
+
+Perceptron
+ - Only capable(유능한) of learning linearly separable(분리할 수 있는) decision(결정) boundary.
+
+Multilayer neural network
+artificial neural network with an input layer, an output layer, and at least on hidden layer
+hidden layer is  random weights
+
+backpropagation(역전파)
+algorithm for training neural networks with hidden layer
+
+ - Start with a random choice of weights.
+ - Repeat :
+	 - Calculate error for output layer :
+	 - For each layer, starting with output layer, and moving inwards towards earliest hidden layer :
+		 - Propagate error back one layer.
+		 - Update weights.
+
+Deep Neural Networks
+neural network with multiple hidden layers
+
+dropout
+temporarily(일시적으로) removing units -- selected at random -- from a neural network to prevent(막다) over-reliance(과도한 의존) on certain(특정) units
+
+Tensorflow
+
+24.07.26
+
+Computer wision
+computational(계산) methods for analyzing and understanding digital images
+
+Image Convolution
+applying a filiter that adds each pixel value of an image to its neighbors, weighted according to a kernel matrix
+
+pooling
+reducing the size of an input by sampling from regions in the input
+
+max-pooling
+pooling by choosing the maximum value in each region
+
+convolutional neural network
+neural network that use convolution, usually for analyzing images
+
+feed-forward neural network
+neural network that has connections only un ine direction
+
+recurrent neural network
+neural network that generates output that feeds back into its own inputs
+
+24.07.29
+
+Natural Language Processing
+
+ - automatic summarization
+ - information extraction
+ - machine reanslation
+ - question answering
+ - text classification
+
+Syntax == structure
+
+Sentence
+
+formal grammar
+a system of rules for generating sentences in a language
+
+Context-Free Grammar(CFG)
+
+N-gram
+a contiguous sequence of n items from a sample of text
+
+Markov chain
+
+bag-of-words model
+model that represents text as an unordered collection of words
+
+Naive Bayes
+P(A|B) = P(B|A) * P(A) / P(B)
+
+P(Positive)
+P(Nagative)
+
+P(😊| "my grandson loved it" ) equal to P( "my grandson loved it" | 😊 ) P( 😊 ) / P( "my grandson loved it" )
+
+P(😊 | "my", "grandson", "loved", "it" ) proportional to P(😊, "my", "grandson", "loved", "it" )
+
+
+P( 😊 ) = number of positive samples / all samples
+
+additive smoothing
+adding a value α to each value in our
+distribution to smooth the data
+
+laplace smoothing
+adding i to each value in our distribution:
+pretending we've seen each value one more time than we actually have
+
+24.07.30
+
+Word Representation
+
+one-hot-representation
+representation of meaning as a vactor with a single 1, and with other values as 0
+
+distributed representation
+representation of meaning distributed across multiple values
+
+word2vec
+model for generating word vectors
+
+Neural Network
+
+Attention
